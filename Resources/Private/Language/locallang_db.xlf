@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="EXT:mai_calendar/Resources/Private/Language/locallang_db.xlf" date="2024-01-01T00:00:00Z" product-name="mai_calendar">
+        <header/>
+        <body>
+            <trans-unit id="tt_content.CType.mai_calendar_view" resname="tt_content.CType.mai_calendar_view">
+                <source>Calendar View</source>
+            </trans-unit>
+            <trans-unit id="tt_content.pi_flexform.mai_calendar_view" resname="tt_content.pi_flexform.mai_calendar_view">
+                <source>Calendar Settings</source>
+            </trans-unit>
+            <trans-unit id="flexform.sheet.general" resname="flexform.sheet.general">
+                <source>General</source>
+            </trans-unit>
+            <trans-unit id="flexform.settings.viewMode" resname="flexform.settings.viewMode">
+                <source>View Mode</source>
+            </trans-unit>
+            <trans-unit id="flexform.settings.viewMode.month" resname="flexform.settings.viewMode.month">
+                <source>Month</source>
+            </trans-unit>
+            <trans-unit id="flexform.settings.viewMode.week" resname="flexform.settings.viewMode.week">
+                <source>Week</source>
+            </trans-unit>
+            <trans-unit id="flexform.settings.viewMode.list" resname="flexform.settings.viewMode.list">
+                <source>List</source>
+            </trans-unit>
+            <trans-unit id="flexform.settings.listLimit" resname="flexform.settings.listLimit">
+                <source>Maximum number of events (list mode)</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,13 @@
+# mai_calendar TypoScript Constants
+
+plugin.tx_maicalendar {
+    view {
+        templateRootPath = EXT:mai_calendar/Resources/Private/Templates/
+        partialRootPath = EXT:mai_calendar/Resources/Private/Partials/
+        layoutRootPath = EXT:mai_calendar/Resources/Private/Layouts/
+    }
+    settings {
+        defaultViewMode = month
+        listLimit = 10
+    }
+}

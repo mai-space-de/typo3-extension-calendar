@@ -1,0 +1,60 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:comment>
+    Navigation partial (prev / today / next + view mode switcher).
+    Arguments:
+      {calendar} – the calendar data array from CalendarDataProcessor
+</f:comment>
+
+<nav class="mai-calendar__navigation" aria-label="Calendar navigation">
+    <div class="mai-calendar__nav-controls">
+        <a
+            class="mai-calendar__nav-btn mai-calendar__nav-btn--prev"
+            href="?tx_maicalendar_view={calendar.viewMode}&amp;tx_maicalendar_date={f:format.date(format: 'Y-m-d', date: calendar.navigation.prev)}"
+            aria-label="{f:translate(key: 'calendar.navigation.prev', extensionName: 'mai_calendar')}"
+        >
+            &laquo; <f:translate key="calendar.navigation.prev" extensionName="mai_calendar" />
+        </a>
+
+        <a
+            class="mai-calendar__nav-btn mai-calendar__nav-btn--today"
+            href="?tx_maicalendar_view={calendar.viewMode}"
+        >
+            <f:translate key="calendar.navigation.today" extensionName="mai_calendar" />
+        </a>
+
+        <a
+            class="mai-calendar__nav-btn mai-calendar__nav-btn--next"
+            href="?tx_maicalendar_view={calendar.viewMode}&amp;tx_maicalendar_date={f:format.date(format: 'Y-m-d', date: calendar.navigation.next)}"
+            aria-label="{f:translate(key: 'calendar.navigation.next', extensionName: 'mai_calendar')}"
+        >
+            <f:translate key="calendar.navigation.next" extensionName="mai_calendar" /> &raquo;
+        </a>
+    </div>
+
+    <div class="mai-calendar__view-switcher">
+        <a
+            class="mai-calendar__view-btn {f:if(condition: '{calendar.viewMode} == month', then: 'mai-calendar__view-btn--active')}"
+            href="?tx_maicalendar_view=month&amp;tx_maicalendar_date={f:format.date(format: 'Y-m-d', date: calendar.currentDate)}"
+        >
+            <f:translate key="calendar.viewMode.month" extensionName="mai_calendar" />
+        </a>
+        <a
+            class="mai-calendar__view-btn {f:if(condition: '{calendar.viewMode} == week', then: 'mai-calendar__view-btn--active')}"
+            href="?tx_maicalendar_view=week&amp;tx_maicalendar_date={f:format.date(format: 'Y-m-d', date: calendar.currentDate)}"
+        >
+            <f:translate key="calendar.viewMode.week" extensionName="mai_calendar" />
+        </a>
+        <a
+            class="mai-calendar__view-btn {f:if(condition: '{calendar.viewMode} == list', then: 'mai-calendar__view-btn--active')}"
+            href="?tx_maicalendar_view=list&amp;tx_maicalendar_date={f:format.date(format: 'Y-m-d', date: calendar.currentDate)}"
+        >
+            <f:translate key="calendar.viewMode.list" extensionName="mai_calendar" />
+        </a>
+    </div>
+</nav>
+
+</html>

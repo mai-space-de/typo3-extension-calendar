@@ -1,0 +1,31 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:comment>
+    iCal download link partial.
+    Arguments:
+      {calendar} – the calendar data array from CalendarDataProcessor
+</f:comment>
+
+<div class="mai-calendar__ical-link">
+    <a
+        class="mai-calendar__ical-button"
+        href="{f:uri.action(
+            pluginName: 'ICalExport',
+            extensionName: 'MaiCalendar',
+            controller: 'Calendar',
+            action: 'icalExport',
+            arguments: {
+                start: calendar.start,
+                end: calendar.end
+            }
+        )}"
+        download="calendar.ics"
+    >
+        <f:translate key="calendar.ical.download" extensionName="mai_calendar" />
+    </a>
+</div>
+
+</html>
