@@ -36,11 +36,15 @@ tt_content.mai_calendar_view {
         10 {
             targetVariable = calendar
             viewMode = TEXT
-            viewMode.data = flexform:settings.viewMode
-            viewMode.ifEmpty = month
+            viewMode {
+                data = flexform:settings.viewMode
+                ifEmpty = month
+            }
             listLimit = TEXT
-            listLimit.data = flexform:settings.listLimit
-            listLimit.ifEmpty = 10
+            listLimit {
+                data = flexform:settings.listLimit
+                ifEmpty = 10
+            }
         }
     }
 }

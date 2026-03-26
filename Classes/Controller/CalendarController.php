@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Maispace\MaiCalendar\Controller;
 
-use Maispace\MaiCalendar\EventProvider\EventProviderInterface;
 use Maispace\MaiCalendar\Domain\Model\Event;
+use Maispace\MaiCalendar\EventProvider\EventProviderInterface;
 use Maispace\MaiCalendar\Service\ICalExportService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\Response;
@@ -22,7 +22,8 @@ class CalendarController extends ActionController
     public function __construct(
         private readonly iterable $eventProviders,
         private readonly ICalExportService $iCalExportService,
-    ) {}
+    ) {
+    }
 
     /**
      * Exports all events within the requested range as an iCalendar (.ics) file.
@@ -33,12 +34,14 @@ class CalendarController extends ActionController
      */
     public function icalExportAction(): ResponseInterface
     {
+        $startArg = $this->request->hasArgument('start') ? $this->request->getArgument('start') : null;
         $start = $this->resolveDate(
-            $this->request->hasArgument('start') ? (string)$this->request->getArgument('start') : '',
+            is_string($startArg) ? $startArg : '',
             new \DateTimeImmutable('first day of this month')
         );
+        $endArg = $this->request->hasArgument('end') ? $this->request->getArgument('end') : null;
         $end = $this->resolveDate(
-            $this->request->hasArgument('end') ? (string)$this->request->getArgument('end') : '',
+            is_string($endArg) ? $endArg : '',
             new \DateTimeImmutable('last day of this month midnight')
         );
 
@@ -79,7 +82,7 @@ class CalendarController extends ActionController
             }
         }
 
-        usort($events, static fn(Event $a, Event $b) => $a->getStart() <=> $b->getStart());
+        usort($events, static fn (Event $a, Event $b) => $a->getStart() <=> $b->getStart());
 
         return $events;
     }

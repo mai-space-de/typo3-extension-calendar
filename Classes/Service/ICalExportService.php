@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Maispace\MaiCalendar\Service;
 
@@ -108,6 +108,7 @@ class ICalExportService
     private function formatDateTime(\DateTimeInterface $dt): string
     {
         $utc = \DateTimeImmutable::createFromInterface($dt)->setTimezone(new \DateTimeZone('UTC'));
+
         return $utc->format('Ymd\THis\Z');
     }
 

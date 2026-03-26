@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Maispace\MaiCalendar\EventProvider;
 
+use Doctrine\DBAL\ParameterType;
 use Maispace\MaiCalendar\Domain\Model\Event;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -31,11 +32,11 @@ class MaiProjectEventProvider implements EventProviderInterface
                 $queryBuilder->expr()->isNotNull('event_start'),
                 $queryBuilder->expr()->lte(
                     'event_start',
-                    $queryBuilder->createNamedParameter($end->getTimestamp(), \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($end->getTimestamp(), ParameterType::INTEGER)
                 ),
                 $queryBuilder->expr()->gte(
                     'event_end',
-                    $queryBuilder->createNamedParameter($start->getTimestamp(), \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($start->getTimestamp(), ParameterType::INTEGER)
                 )
             )
             ->executeQuery()
@@ -43,14 +44,22 @@ class MaiProjectEventProvider implements EventProviderInterface
 
         $events = [];
         foreach ($rows as $row) {
+            $uid = is_int($row['uid'] ?? null) ? $row['uid'] : 0;
+            $title = is_string($row['title'] ?? null) ? $row['title'] : '';
+            $eventStart = is_int($row['event_start'] ?? null) ? $row['event_start'] : 0;
+            $eventEnd = is_int($row['event_end'] ?? null) ? $row['event_end'] : 0;
+            $description = is_string($row['description'] ?? null) ? $row['description'] : '';
+            $location = is_string($row['location'] ?? null) ? $row['location'] : '';
+            $slug = is_string($row['slug'] ?? null) ? $row['slug'] : '';
+
             $events[] = new Event(
-                uid: 'maiproject_' . $row['uid'],
-                title: $row['title'],
-                start: new \DateTimeImmutable('@' . $row['event_start']),
-                end: new \DateTimeImmutable('@' . $row['event_end']),
-                description: $row['description'] ?? '',
-                location: $row['location'] ?? '',
-                url: $row['slug'] ?? '',
+                uid: 'maiproject_' . $uid,
+                title: $title,
+                start: new \DateTimeImmutable('@' . $eventStart),
+                end: new \DateTimeImmutable('@' . $eventEnd),
+                description: $description,
+                location: $location,
+                url: $slug,
                 source: 'maiproject',
             );
         }

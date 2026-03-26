@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Maispace\MaiCalendar\DataProcessor;
 
@@ -40,15 +40,23 @@ class CalendarDataProcessor implements DataProcessorInterface
      */
     public function __construct(
         private readonly iterable $eventProviders,
-    ) {}
+    ) {
+    }
 
+    /**
+     * @param array<string, mixed> $contentObjectConfiguration
+     * @param array<string, mixed> $processorConfiguration
+     * @param array<string, mixed> $processedData
+     *
+     * @return array<string, mixed>
+     */
     public function process(
         ContentObjectRenderer $cObj,
         array $contentObjectConfiguration,
         array $processorConfiguration,
         array $processedData
     ): array {
-        $targetVariable = (string)($processorConfiguration['targetVariable'] ?? 'calendar');
+        $targetVariable = is_string($processorConfiguration['targetVariable'] ?? null) ? $processorConfiguration['targetVariable'] : 'calendar';
         $viewMode = $this->resolveViewMode($processorConfiguration, $processedData);
         $currentDate = $this->resolveCurrentDate($processorConfiguration, $processedData);
 
@@ -56,12 +64,12 @@ class CalendarDataProcessor implements DataProcessorInterface
         $events = $this->aggregateEvents($start, $end);
 
         $calendarData = [
-            'viewMode' => $viewMode,
+            'viewMode'    => $viewMode,
             'currentDate' => $currentDate,
-            'start' => $start,
-            'end' => $end,
-            'events' => $events,
-            'navigation' => $this->buildNavigation($viewMode, $currentDate),
+            'start'       => $start,
+            'end'         => $end,
+            'events'      => $events,
+            'navigation'  => $this->buildNavigation($viewMode, $currentDate),
         ];
 
         if ($viewMode === 'month') {
@@ -69,7 +77,7 @@ class CalendarDataProcessor implements DataProcessorInterface
         } elseif ($viewMode === 'week') {
             $calendarData['weeks'] = $this->buildWeekGrid($currentDate, $events);
         } elseif ($viewMode === 'list') {
-            $limit = (int)($processorConfiguration['listLimit'] ?? 10);
+            $limit = is_int($processorConfiguration['listLimit'] ?? null) ? $processorConfiguration['listLimit'] : 10;
             $calendarData['events'] = array_slice($events, 0, $limit > 0 ? $limit : count($events));
         }
 
@@ -80,18 +88,21 @@ class CalendarDataProcessor implements DataProcessorInterface
 
     /**
      * Resolves the view mode from processor configuration or request parameters.
+     *
+     * @param array<string, mixed> $processorConfiguration
+     * @param array<string, mixed> $processedData
      */
     private function resolveViewMode(array $processorConfiguration, array $processedData): string
     {
         $allowed = ['month', 'week', 'list'];
 
         // Allow override via GET parameter (e.g. ?tx_maicalendar_view=week)
-        $requestMode = $_GET['tx_maicalendar_view'] ?? '';
-        if (in_array($requestMode, $allowed, true)) {
+        $requestMode = $_GET['tx_maicalendar_view'] ?? null;
+        if (is_string($requestMode) && in_array($requestMode, $allowed, true)) {
             return $requestMode;
         }
 
-        $configMode = (string)($processorConfiguration['viewMode'] ?? 'month');
+        $configMode = is_string($processorConfiguration['viewMode'] ?? null) ? $processorConfiguration['viewMode'] : 'month';
         if (in_array($configMode, $allowed, true)) {
             return $configMode;
         }
@@ -101,19 +112,22 @@ class CalendarDataProcessor implements DataProcessorInterface
 
     /**
      * Resolves the reference date from processor configuration or request parameters.
+     *
+     * @param array<string, mixed> $processorConfiguration
+     * @param array<string, mixed> $processedData
      */
     private function resolveCurrentDate(array $processorConfiguration, array $processedData): \DateTimeImmutable
     {
         // Allow navigation via GET parameter (e.g. ?tx_maicalendar_date=2024-06-01)
-        $requestDate = $_GET['tx_maicalendar_date'] ?? '';
-        if ($requestDate !== '') {
+        $requestDate = $_GET['tx_maicalendar_date'] ?? null;
+        if (is_string($requestDate) && $requestDate !== '') {
             $parsed = \DateTimeImmutable::createFromFormat('Y-m-d', $requestDate);
             if ($parsed !== false) {
                 return $parsed->setTime(0, 0, 0);
             }
         }
 
-        $configDate = (string)($processorConfiguration['date'] ?? '');
+        $configDate = is_string($processorConfiguration['date'] ?? null) ? $processorConfiguration['date'] : '';
         if ($configDate !== '') {
             $parsed = \DateTimeImmutable::createFromFormat('Y-m-d', $configDate);
             if ($parsed !== false) {
@@ -168,7 +182,7 @@ class CalendarDataProcessor implements DataProcessorInterface
             }
         }
 
-        usort($events, static fn(Event $a, Event $b) => $a->getStart() <=> $b->getStart());
+        usort($events, static fn (Event $a, Event $b) => $a->getStart() <=> $b->getStart());
 
         return $events;
     }
@@ -181,6 +195,8 @@ class CalendarDataProcessor implements DataProcessorInterface
      *   [date, isCurrentMonth, isToday, events]
      *
      * @param Event[] $events
+     *
+     * @return list<list<array<string, mixed>>>
      */
     private function buildMonthGrid(\DateTimeImmutable $currentDate, array $events): array
     {
@@ -206,6 +222,8 @@ class CalendarDataProcessor implements DataProcessorInterface
      * Builds a grid for a single week (Monday to Sunday).
      *
      * @param Event[] $events
+     *
+     * @return list<list<array<string, mixed>>>
      */
     private function buildWeekGrid(\DateTimeImmutable $currentDate, array $events): array
     {
@@ -217,6 +235,8 @@ class CalendarDataProcessor implements DataProcessorInterface
 
     /**
      * @param Event[] $events
+     *
+     * @return list<list<array<string, mixed>>>
      */
     private function buildGrid(
         \DateTimeImmutable $gridStart,
@@ -233,14 +253,14 @@ class CalendarDataProcessor implements DataProcessorInterface
             $dayEnd = $day->setTime(23, 59, 59);
             $dayEvents = array_values(array_filter(
                 $events,
-                static fn(Event $e) => $e->getStart() <= $dayEnd && $e->getEnd() >= $day
+                static fn (Event $e) => $e->getStart() <= $dayEnd && $e->getEnd() >= $day
             ));
 
             $week[] = [
-                'date' => $day,
+                'date'           => $day,
                 'isCurrentMonth' => $day->format('Ym') === $referenceMonth->format('Ym'),
-                'isToday' => $day->format('Ymd') === $today->format('Ymd'),
-                'events' => $dayEvents,
+                'isToday'        => $day->format('Ymd') === $today->format('Ymd'),
+                'events'         => $dayEvents,
             ];
 
             if (count($week) === 7) {
@@ -260,6 +280,8 @@ class CalendarDataProcessor implements DataProcessorInterface
 
     /**
      * Builds previous/next navigation dates for the given view mode.
+     *
+     * @return array{prev: \DateTimeImmutable, next: \DateTimeImmutable}
      */
     private function buildNavigation(string $viewMode, \DateTimeImmutable $currentDate): array
     {

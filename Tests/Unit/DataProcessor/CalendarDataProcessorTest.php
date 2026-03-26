@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Maispace\MaiCalendar\Tests\Unit\DataProcessor;
 
@@ -79,7 +79,7 @@ class CalendarDataProcessorTest extends TestCase
     public function testListViewRespectsLimit(): void
     {
         $events = [];
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 20; ++$i) {
             $day = str_pad((string)$i, 2, '0', STR_PAD_LEFT);
             $events[] = $this->makeEvent((string)$i, "Event $i", "2024-06-{$day} 10:00", "2024-06-{$day} 11:00");
         }
@@ -236,7 +236,7 @@ class CalendarDataProcessorTest extends TestCase
         $result = $processor->process(
             $cObj,
             [],
-            ['viewMode' => 'list'],
+            ['viewMode'    => 'list'],
             ['existingKey' => 'existingValue']
         );
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Maispace\MaiCalendar\Domain\Model;
 
@@ -19,7 +19,8 @@ class Event
         protected string $url = '',
         protected bool $allDay = false,
         protected string $source = '',
-    ) {}
+    ) {
+    }
 
     public function getUid(): string
     {

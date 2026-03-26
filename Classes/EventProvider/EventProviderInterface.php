@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Maispace\MaiCalendar\EventProvider;
 
@@ -23,6 +23,7 @@ interface EventProviderInterface
      *
      * @param \DateTimeInterface $start Inclusive start of the range
      * @param \DateTimeInterface $end   Inclusive end of the range
+     *
      * @return Event[]
      */
     public function getEvents(\DateTimeInterface $start, \DateTimeInterface $end): array;
