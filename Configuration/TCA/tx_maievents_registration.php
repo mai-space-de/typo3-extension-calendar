@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\DatetimeConfig;
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\EmailConfig;
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\InputConfig;
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\SelectSingleConfig;
 use Maispace\MaiBase\TableConfigurationArray\Helper;
 use Maispace\MaiBase\TableConfigurationArray\Table;
 
@@ -18,53 +22,47 @@ return (new Table($lang('table.tx_maievents_registration')))
     ->addColumn(
         'event',
         $lang('tx_maievents_registration.event'),
-        [
-            'type' => 'select',
-            'renderType' => 'selectSingle',
-            'foreign_table' => 'tx_maievents_event',
-            'foreign_table_where' => 'ORDER BY tx_maievents_event.start_date DESC',
-            'minitems' => 1,
-            'maxitems' => 1,
-        ]
+        (new SelectSingleConfig())
+            ->setForeignTable('tx_maievents_event')
+            ->setForeignTableWhere('ORDER BY tx_maievents_event.start_date DESC')
+            ->setMinItems(1)
+            ->setMaxItems(1)
     )
     ->addColumn(
         'first_name',
         $lang('tx_maievents_registration.first_name'),
-        ['type' => 'input', 'size' => 30, 'max' => 100, 'eval' => 'trim,required']
+        (new InputConfig())->setSize(30)->setMax(100)->setEval('trim,required')
     )
     ->addColumn(
         'last_name',
         $lang('tx_maievents_registration.last_name'),
-        ['type' => 'input', 'size' => 30, 'max' => 100, 'eval' => 'trim,required']
+        (new InputConfig())->setSize(30)->setMax(100)->setEval('trim,required')
     )
     ->addColumn(
         'email',
         $lang('tx_maievents_registration.email'),
-        ['type' => 'email', 'eval' => 'required']
+        (new EmailConfig())->setEval('required')
     )
     ->addColumn(
         'status',
         $lang('tx_maievents_registration.status'),
-        [
-            'type' => 'select',
-            'renderType' => 'selectSingle',
-            'items' => [
+        (new SelectSingleConfig())
+            ->setItems([
                 ['label' => $lang('tx_maievents_registration.status.registered'), 'value' => 'registered'],
                 ['label' => $lang('tx_maievents_registration.status.waiting'), 'value' => 'waiting'],
                 ['label' => $lang('tx_maievents_registration.status.cancelled'), 'value' => 'cancelled'],
-            ],
-            'default' => 'registered',
-        ]
+            ])
+            ->setDefault('registered')
     )
     ->addColumn(
         'registered_at',
         $lang('tx_maievents_registration.registered_at'),
-        ['type' => 'datetime', 'format' => 'datetime', 'readOnly' => true]
+        (new DatetimeConfig())->setFormat('datetime')->setReadOnly()
     )
     ->addColumn(
         'confirmed_at',
         $lang('tx_maievents_registration.confirmed_at'),
-        ['type' => 'datetime', 'format' => 'datetime', 'readOnly' => true]
+        (new DatetimeConfig())->setFormat('datetime')->setReadOnly()
     )
     ->addPalette(
         'name',

@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\CategoryConfig;
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\CheckboxConfig;
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\DatetimeConfig;
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\FileConfig;
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\InputConfig;
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\NumberConfig;
+use Maispace\MaiBase\TableConfigurationArray\FieldConfig\TextConfig;
 use Maispace\MaiBase\TableConfigurationArray\Helper;
 use Maispace\MaiBase\TableConfigurationArray\Table;
 
@@ -18,69 +25,57 @@ return (new Table($lang('table.tx_maievents_event')))
     ->addColumn(
         'title',
         $lang('tx_maievents_event.title'),
-        ['type' => 'input', 'size' => 50, 'max' => 255, 'eval' => 'trim,required']
+        (new InputConfig())->setSize(50)->setMax(255)->setEval('trim,required')
     )
     ->addColumn(
         'description',
         $lang('tx_maievents_event.description'),
-        [
-            'type' => 'text',
-            'rows' => 10,
-            'cols' => 50,
-            'enableRichtext' => true,
-            'richtextConfiguration' => 'default',
-        ]
+        (new TextConfig())->setRows(10)->setCols(50)->enableRte()->setRichtextConfiguration('default')
     )
     ->addColumn(
         'location',
         $lang('tx_maievents_event.location'),
-        ['type' => 'input', 'size' => 50, 'max' => 255, 'eval' => 'trim']
+        (new InputConfig())->setSize(50)->setMax(255)->setEval('trim')
     )
     ->addColumn(
         'start_date',
         $lang('tx_maievents_event.start_date'),
-        ['type' => 'datetime', 'format' => 'datetime', 'eval' => 'required']
+        (new DatetimeConfig())->setFormat('datetime')->setRequired()
     )
     ->addColumn(
         'end_date',
         $lang('tx_maievents_event.end_date'),
-        ['type' => 'datetime', 'format' => 'datetime']
+        (new DatetimeConfig())->setFormat('datetime')
     )
     ->addColumn(
         'registration_deadline',
         $lang('tx_maievents_event.registration_deadline'),
-        ['type' => 'datetime', 'format' => 'datetime']
+        (new DatetimeConfig())->setFormat('datetime')
     )
     ->addColumn(
         'max_attendees',
         $lang('tx_maievents_event.max_attendees'),
-        ['type' => 'number', 'format' => 'integer', 'default' => 0]
+        (new NumberConfig())->setFormat('integer')->setDefault(0)
     )
     ->addColumn(
         'has_waiting_list',
         $lang('tx_maievents_event.has_waiting_list'),
-        [
-            'type' => 'check',
-            'renderType' => 'checkboxToggle',
-            'default' => 0,
-        ]
+        (new CheckboxConfig())->setRenderType('checkboxToggle')->setDefault(0)
     )
     ->addColumn(
         'image',
         $lang('tx_maievents_event.image'),
-        [
-            'type' => 'file',
-            'allowed' => 'common-image-types',
-            'maxitems' => 1,
-            'appearance' => [
+        (new FileConfig())
+            ->setAllowed('common-image-types')
+            ->setMaxItems(1)
+            ->setAppearance([
                 'createNewRelationLinkTitle' => $lang('tx_maievents_event.image.addFile'),
-            ],
-        ]
+            ])
     )
     ->addColumn(
         'categories',
         $lang('tx_maievents_event.categories'),
-        ['type' => 'category']
+        new CategoryConfig()
     )
     ->addPalette(
         'dates',
