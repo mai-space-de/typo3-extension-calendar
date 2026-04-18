@@ -51,6 +51,63 @@
             <trans-unit id="weekday.sunday" resname="weekday.sunday">
                 <source>Sunday</source>
             </trans-unit>
+            <trans-unit id="registration.form.headline" resname="registration.form.headline">
+                <source>Register for this event</source>
+            </trans-unit>
+            <trans-unit id="registration.firstName" resname="registration.firstName">
+                <source>First name</source>
+            </trans-unit>
+            <trans-unit id="registration.lastName" resname="registration.lastName">
+                <source>Last name</source>
+            </trans-unit>
+            <trans-unit id="registration.email" resname="registration.email">
+                <source>Email address</source>
+            </trans-unit>
+            <trans-unit id="registration.submit" resname="registration.submit">
+                <source>Register now</source>
+            </trans-unit>
+            <trans-unit id="registration.closed" resname="registration.closed">
+                <source>Registration for this event is closed.</source>
+            </trans-unit>
+            <trans-unit id="registration.success.headline" resname="registration.success.headline">
+                <source>Registration received</source>
+            </trans-unit>
+            <trans-unit id="registration.success.text" resname="registration.success.text">
+                <source>Thank you for registering. Please check your email to confirm your registration.</source>
+            </trans-unit>
+            <trans-unit id="registration.waitingList.notice" resname="registration.waitingList.notice">
+                <source>The event is fully booked. You have been added to the waiting list.</source>
+            </trans-unit>
+            <trans-unit id="registration.confirm.headline" resname="registration.confirm.headline">
+                <source>Registration confirmed</source>
+            </trans-unit>
+            <trans-unit id="registration.confirm.text" resname="registration.confirm.text">
+                <source>Your registration for %1$s has been confirmed.</source>
+            </trans-unit>
+            <trans-unit id="registration.confirm.invalid" resname="registration.confirm.invalid">
+                <source>The confirmation link is invalid or has already been used.</source>
+            </trans-unit>
+            <trans-unit id="backend.registration.selectEvent" resname="backend.registration.selectEvent">
+                <source>Select event</source>
+            </trans-unit>
+            <trans-unit id="backend.registration.allEvents" resname="backend.registration.allEvents">
+                <source>All events</source>
+            </trans-unit>
+            <trans-unit id="backend.registration.exportCsv" resname="backend.registration.exportCsv">
+                <source>Export as CSV</source>
+            </trans-unit>
+            <trans-unit id="backend.registration.status" resname="backend.registration.status">
+                <source>Status</source>
+            </trans-unit>
+            <trans-unit id="backend.registration.waitingList" resname="backend.registration.waitingList">
+                <source>Waiting list</source>
+            </trans-unit>
+            <trans-unit id="backend.registration.registeredAt" resname="backend.registration.registeredAt">
+                <source>Registered at</source>
+            </trans-unit>
+            <trans-unit id="backend.registration.noRegistrations" resname="backend.registration.noRegistrations">
+                <source>No registrations found for this event.</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

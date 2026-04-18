@@ -6,7 +6,7 @@
 <f:comment>
     iCal download link partial.
     Arguments:
-      {calendar} – the calendar data array from CalendarDataProcessor
+      {calendar} – the calendar data array from EventsDataProcessor
 </f:comment>
 
 <div class="mai-calendar__ical-link">
@@ -14,8 +14,8 @@
         class="mai-calendar__ical-button"
         href="{f:uri.action(
             pluginName: 'ICalExport',
-            extensionName: 'MaiCalendar',
-            controller: 'Calendar',
+            extensionName: 'MaiEvents',
+            controller: 'Events',
             action: 'icalExport',
             arguments: {
                 start: calendar.start,
@@ -24,7 +24,7 @@
         )}"
         download="calendar.ics"
     >
-        <f:translate key="calendar.ical.download" extensionName="mai_calendar" />
+        <f:translate key="calendar.ical.download" extensionName="mai_events" />
     </a>
 </div>
 

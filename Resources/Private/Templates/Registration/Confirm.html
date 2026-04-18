@@ -1,0 +1,21 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<div class="mai-registration mai-registration--confirmed">
+    <h2><f:translate key="registration.confirm.headline" extensionName="mai_events" /></h2>
+
+    <p>
+        <f:translate key="registration.confirm.text" extensionName="mai_events" arguments="{0: registration.fullName}" />
+    </p>
+
+    <f:if condition="{event}">
+        <p>
+            <strong>{event.title}</strong><br />
+            <f:format.date format="d.m.Y H:i" date="{event.startDate}" />
+        </p>
+    </f:if>
+</div>
+
+</html>

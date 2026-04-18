@@ -6,7 +6,7 @@
 <f:comment>
     Single event partial.
     Arguments:
-      {event}   – Maispace\MaiCalendar\Domain\Model\Event instance
+      {event}   – Maispace\MaiEvents\Domain\Model\Event instance
       {compact} – 1 for compact (no description/location), 0 for full display
 </f:comment>
 
@@ -30,7 +30,7 @@
         >
             <f:if condition="{event.allDay}">
                 <f:then>
-                    <f:translate key="calendar.allDay" extensionName="mai_calendar" />
+                    <f:translate key="calendar.allDay" extensionName="mai_events" />
                 </f:then>
                 <f:else>
                     <f:format.date format="H:i" date="{event.start}" />

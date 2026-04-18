@@ -1,0 +1,43 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:if condition="{isOpen}">
+    <f:then>
+        <div class="mai-registration">
+            <h2><f:translate key="registration.form.headline" extensionName="mai_events" /></h2>
+
+            <f:form action="register" controller="Registration" extensionName="MaiEvents" pluginName="Registration"
+                    method="post" additionalAttributes="{novalidate: 'novalidate'}">
+                <f:form.hidden name="eventUid" value="{event.uid}" />
+
+                <div class="mai-registration__field">
+                    <label for="firstName"><f:translate key="registration.firstName" extensionName="mai_events" /></label>
+                    <f:form.textfield id="firstName" property="firstName" required="required" class="mai-registration__input" />
+                </div>
+
+                <div class="mai-registration__field">
+                    <label for="lastName"><f:translate key="registration.lastName" extensionName="mai_events" /></label>
+                    <f:form.textfield id="lastName" property="lastName" required="required" class="mai-registration__input" />
+                </div>
+
+                <div class="mai-registration__field">
+                    <label for="email"><f:translate key="registration.email" extensionName="mai_events" /></label>
+                    <f:form.textfield id="email" property="email" type="email" required="required" class="mai-registration__input" />
+                </div>
+
+                <div class="mai-registration__actions">
+                    <f:form.submit value="{f:translate(key: 'registration.submit', extensionName: 'mai_events')}" class="mai-registration__submit" />
+                </div>
+            </f:form>
+        </div>
+    </f:then>
+    <f:else>
+        <p class="mai-registration__closed">
+            <f:translate key="registration.closed" extensionName="mai_events" />
+        </p>
+    </f:else>
+</f:if>
+
+</html>

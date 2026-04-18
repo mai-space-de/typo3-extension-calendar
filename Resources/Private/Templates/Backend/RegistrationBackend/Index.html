@@ -1,0 +1,68 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<be:pageRenderer />
+
+<div class="mai-registrations">
+    <f:form action="exportCsv" controller="RegistrationBackend" extensionName="MaiEvents" method="get">
+        <div class="form-group">
+            <label for="eventSelect"><f:translate key="backend.registration.selectEvent" extensionName="mai_events" /></label>
+            <select id="eventSelect" name="eventUid" class="form-select" onchange="this.form.submit()">
+                <option value="0">— <f:translate key="backend.registration.allEvents" extensionName="mai_events" /> —</option>
+                <f:for each="{events}" as="event">
+                    <option value="{event.uid}" {f:if(condition: '{event.uid} == {selectedEventUid}', then: 'selected')}>{event.title}</option>
+                </f:for>
+            </select>
+        </div>
+    </f:form>
+
+    <f:if condition="{selectedEventUid} > 0">
+        <f:if condition="{registrations}">
+            <f:then>
+                <f:form action="exportCsv" controller="RegistrationBackend" extensionName="MaiEvents" method="get">
+                    <f:form.hidden name="eventUid" value="{selectedEventUid}" />
+                    <button type="submit" class="btn btn-default">
+                        <f:translate key="backend.registration.exportCsv" extensionName="mai_events" />
+                    </button>
+                </f:form>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th><f:translate key="registration.firstName" extensionName="mai_events" /></th>
+                            <th><f:translate key="registration.lastName" extensionName="mai_events" /></th>
+                            <th><f:translate key="registration.email" extensionName="mai_events" /></th>
+                            <th><f:translate key="backend.registration.status" extensionName="mai_events" /></th>
+                            <th><f:translate key="backend.registration.waitingList" extensionName="mai_events" /></th>
+                            <th><f:translate key="backend.registration.registeredAt" extensionName="mai_events" /></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <f:for each="{registrations}" as="registration">
+                            <tr>
+                                <td>{registration.firstName}</td>
+                                <td>{registration.lastName}</td>
+                                <td>{registration.email}</td>
+                                <td>{registration.status}</td>
+                                <td><f:if condition="{registration.waitingList}">✓</f:if></td>
+                                <td>
+                                    <f:if condition="{registration.registeredAt}">
+                                        <f:format.date format="d.m.Y H:i" date="{registration.registeredAt}" />
+                                    </f:if>
+                                </td>
+                            </tr>
+                        </f:for>
+                    </tbody>
+                </table>
+            </f:then>
+            <f:else>
+                <p><f:translate key="backend.registration.noRegistrations" extensionName="mai_events" /></p>
+            </f:else>
+        </f:if>
+    </f:if>
+</div>
+
+</html>
