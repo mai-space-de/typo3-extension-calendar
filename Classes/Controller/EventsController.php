@@ -4,33 +4,22 @@ declare(strict_types=1);
 
 namespace Maispace\MaiEvents\Controller;
 
-use Maispace\MaiEvents\EventProvider\EventProviderInterface;
+use Maispace\MaiBase\Controller\AbstractActionController;
+use Maispace\MaiBase\Controller\Traits\ResponseHelpersTrait;
 use Maispace\MaiEvents\Domain\Model\Event;
+use Maispace\MaiEvents\EventProvider\EventProviderInterface;
 use Maispace\MaiEvents\Service\ICalExportService;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Http\Response;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
-/**
- * Controller providing the iCal export endpoint.
- */
-class EventsController extends ActionController
+class EventsController extends AbstractActionController
 {
-    /**
-     * @param iterable<EventProviderInterface> $eventProviders
-     */
+    use ResponseHelpersTrait;
+
     public function __construct(
         private readonly iterable $eventProviders,
         private readonly ICalExportService $iCalExportService,
     ) {}
 
-    /**
-     * Exports all events within the requested range as an iCalendar (.ics) file.
-     *
-     * Query parameters:
-     *   start  Y-m-d   (default: first day of current month)
-     *   end    Y-m-d   (default: last day of current month)
-     */
     public function icalExportAction(): ResponseInterface
     {
         $start = $this->resolveDate(
@@ -45,12 +34,7 @@ class EventsController extends ActionController
         $events = $this->aggregateEvents($start, $end);
         $icalContent = $this->iCalExportService->generate($events);
 
-        $response = new Response();
-        $response->getBody()->write($icalContent);
-
-        return $response
-            ->withHeader('Content-Type', 'text/calendar; charset=utf-8')
-            ->withHeader('Content-Disposition', 'attachment; filename="events.ics"');
+        return $this->fileDownloadResponse($icalContent, 'events.ics', 'text/calendar; charset=utf-8');
     }
 
     private function resolveDate(string $value, \DateTimeImmutable $default): \DateTimeImmutable
@@ -67,9 +51,6 @@ class EventsController extends ActionController
         return $parsed->setTime(0, 0, 0);
     }
 
-    /**
-     * @return Event[]
-     */
     private function aggregateEvents(\DateTimeInterface $start, \DateTimeInterface $end): array
     {
         $events = [];
