@@ -16,7 +16,7 @@ return (new Table($lang('table.tx_maievents_registration')))
     ->setLabel('last_name')
     ->setAlternativeLabelFields('first_name, email')
     ->appendAlternativeLabelToLabel()
-    ->setIconFile('EXT:mai_events/Resources/Public/Icons/tx_maievents_registration.svg')
+    ->setIconFile('EXT:mai_base/Resources/Public/Icons/generic_table.svg')
     ->setDefaultSorting('ORDER BY registered_at DESC')
     ->addColumn(
         'event',

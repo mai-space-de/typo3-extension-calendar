@@ -9,7 +9,7 @@ defined('TYPO3') or die();
     [
         'label' => 'LLL:EXT:mai_events/Resources/Private/Language/locallang_db.xlf:tt_content.CType.mai_events_view',
         'value' => 'mai_events_view',
-        'icon' => 'EXT:mai_events/Resources/Public/Icons/ContentElement/EventsView.svg',
+        'icon' => 'EXT:mai_base/Resources/Public/Icons/generic_content.svg',
         'group' => 'default',
     ],
     'CType',

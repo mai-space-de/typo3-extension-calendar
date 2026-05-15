@@ -18,7 +18,7 @@ return (new Table($lang('table.tx_maievents_event')))
     ->setDefaultConfig()
     ->setLabel('title')
     ->setAlternativeLabelFields('start_date')
-    ->setIconFile('EXT:mai_events/Resources/Public/Icons/tx_maievents_event.svg')
+    ->setIconFile('EXT:mai_base/Resources/Public/Icons/generic_table.svg')
     ->setDefaultSorting('ORDER BY start_date ASC')
     ->setThumbnailField('image')
     ->addColumn(
